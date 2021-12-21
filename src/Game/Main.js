@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import "./Main.css";
+import { Hr } from "../Components/Hr";
 
 export const Main = () => {
   const command = useRef("");
@@ -33,7 +34,7 @@ export const Main = () => {
           <li>No items.</li>
         </aside>
       </div>
-      <hr />
+      <Hr />
       <div className="bottom">
         <section className="input">
           <input className="input-text" type="text" ref={command} />
