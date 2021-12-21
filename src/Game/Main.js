@@ -1,14 +1,14 @@
 import React, { useState, useRef } from "react";
 import "./Main.css";
 import { Hr } from "../Components/Hr";
-const gamedata = require("../Game/Levels/level1.json");
+import { gamedata } from "../Game/Levels/level1";
 
 export const Main = () => {
   // Variables
   const command = useRef("");
   const [history, setHistory] = useState("You entered a forrest. You see a note.");
   const [lastCommand, setLastCommand] = useState("");
-  const [inventory, setInventory] = useState([]);
+  const [player, setPlayer] = useState(gamedata.Player);
 
   console.log(gamedata);
 
@@ -85,9 +85,9 @@ export const Main = () => {
       case "Attack":
         return "Attack what?";
       case "Get Note":
-        let _inv = [...inventory];
-        _inv.push('Note');
-        setInventory(_inv);
+        let _ply = {...player};
+        _ply.Items.push("Note");
+        setPlayer({...player, ..._ply.Items});
         return "Picked up note.";
       default:
         return "You must have something valuable to say!!";
@@ -117,13 +117,13 @@ export const Main = () => {
           />
         </section>
         <aside className="inventory">
-          Player: {gamedata.Player.Name}<br />
-          Hit Points: {gamedata.Player.HP}<br />
-          Gold: {gamedata.Player.Gold}<br />
-          Weapon: {gamedata.Player.Weapon || "None"} <br />
+          Player: {player.Name}<br />
+          Hit Points: {player.HP}<br />
+          Gold: {player.Gold}<br />
+          Weapon: {player.Weapon || "None"} <br />
           <br />
           Items: <br />
-          {inventory.map((item) => {
+          {player.Items.map((item) => {
             return(
               <li key={item}>{item}</li>
             );
