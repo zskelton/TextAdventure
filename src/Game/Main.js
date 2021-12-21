@@ -3,11 +3,38 @@ import "./Main.css";
 import { Hr } from "../Components/Hr";
 
 export const Main = () => {
+  // Variables
   const command = useRef("");
-  const [history, setHistory] = useState("You entered a forrest.");
+  const [history, setHistory] = useState("You entered a forrest. You see a note.");
+  const [lastCommand, setLastCommand] = useState("");
+  const [inventory, setInventory] = useState([]);
 
-  console.log(command);
+  // Handlers
+  const handleSubmit = () => {
+    // Add Output to Form
+    setHistory(`${history}\n\n${onInput(command.current.value)}`);
+    // Reset Input
+    setLastCommand(command.current.value);
+    command.current.focus();
+  }
 
+  const onInput = command => {
+    switch (command) {
+      case "Go North":
+        return "Cannot Go north.";
+      case "Attack":
+        return "Attack what?";
+      case "Get Note":
+        let _inv = [...inventory];
+        _inv.push('Note');
+        setInventory(_inv);
+        return "Picked up note.";
+      default:
+        return "You must have something valuable to say!!";
+    }
+  }
+
+  // Return Object
   return (
     <article className="main-page">
       <div className="top">
@@ -31,22 +58,29 @@ export const Main = () => {
         </section>
         <aside className="inventory">
           Inventory: <br />
-          <li>No items.</li>
+          {inventory.map((item) => {
+            return(
+              <li key={item}>{item}</li>
+            );
+          })
+
+          }
         </aside>
       </div>
       <Hr />
-      <div className="bottom">
+      {/* Select Previous Command with 'ArrowUp' - Accept Enter */}
+      <div className="bottom" onKeyDown={e =>{
+        if(e.key === "ArrowUp") { command.current.value = lastCommand }
+        else if(e.key === "Enter") { handleSubmit(); command.current.value = ""; }
+      }}>
         <section className="input">
           <input className="input-text" type="text" ref={command} />
           <button
             className="input-button"
             type="button"
             onClick={() => {
-              command.current.value
-                ? setHistory(`${history}\n\n${command.current?.value}`)
-                : setHistory(`${history}\n\nYou must have something to say!`);
-            }}
-          >
+              handleSubmit(); command.current.value = "";
+            }}>
             Enter
           </button>
         </section>
