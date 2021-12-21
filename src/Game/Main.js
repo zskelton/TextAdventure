@@ -5,6 +5,8 @@ export const Main = () => {
   const command = useRef("");
   const [history, setHistory] = useState("You entered a forrest.");
 
+  console.log(command);
+
   return (
     <article className="main-page">
       <div className="top">
@@ -39,8 +41,9 @@ export const Main = () => {
             className="input-button"
             type="button"
             onClick={() => {
-              setHistory(`${history}\n\n${command.current?.value}`);
-              command.current = "";
+              command.current.value
+                ? setHistory(`${history}\n\n${command.current?.value}`)
+                : setHistory(`${history}\n\nYou must have something to say!`);
             }}
           >
             Enter
