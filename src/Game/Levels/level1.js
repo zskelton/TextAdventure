@@ -6,7 +6,8 @@ export const gamedata = {
     "HP": 30,
     "Weapon": null,
     "Gold": 0,
-    "Items": []
+    "Items": [],
+    "Pos": [0, 0]
   },
   "Rooms": [
   {
@@ -14,8 +15,7 @@ export const gamedata = {
     "text_first": "You are in a forrest with a cave entrance directly to your east. You see a note on the ground.",
     "text_long": "You are in a forrest with a cave entrance directly to your east.",
     "text_short": "You are at the entryway of a cave.",
-    "x": 0,
-    "y": 0,
+    "pos": [0, 0],
     "directions": {
       "north": false,
       "east": true,
@@ -36,8 +36,7 @@ export const gamedata = {
     "text_first": "Entering the cave, you see torches lining the way. Going south is the only option.",
     "text_long": "You are at the cave entrance on the northern end of a hallway.",
     "text_short": "You are just inside the mouth of the cave.",
-    "x": 1,
-    "y": 0,
+    "pos": [1, 0],
     "directions": {
       "north": false,
       "east": false,
@@ -53,8 +52,7 @@ export const gamedata = {
     "text_first": "..",
     "text_long": "..",
     "text_short": "..",
-    "x": 2,
-    "y": 0,
+    "pos": [2, 0],
     "directions": {
       "north": false,
       "east": false,
@@ -70,8 +68,7 @@ export const gamedata = {
     "text_first": "..",
     "text_long": "..",
     "text_short": "..",
-    "x": 3,
-    "y": 0,
+    "pos": [3, 0],
     "directions": {
       "north": false,
       "east": false,
@@ -87,8 +84,7 @@ export const gamedata = {
     "text_first": "..",
     "text_long": "..",
     "text_short": "..",
-    "x": 4,
-    "y": 0,
+    "pos": [4, 0],
     "directions": {
       "north": false,
       "east": false,
@@ -104,8 +100,7 @@ export const gamedata = {
     "text_first": "..",
     "text_long": "..",
     "text_short": "..",
-    "x": 0,
-    "y": 1,
+    "pos": [0, 1],
     "directions": {
       "north": false,
       "east": false,
@@ -121,8 +116,7 @@ export const gamedata = {
     "text_first": "You are still in a long north/south hallway. On the ground you see a key and to the east is a locked door.",
     "text_long": "You are in a north/south hallway with a door to the east.",
     "text_short": "You are in a north/south hallway.",
-    "x": 1,
-    "y": 1,
+    "pos": [1, 1],
     "directions": {
       "north": true,
       "east": false,
@@ -143,8 +137,7 @@ export const gamedata = {
     "text_first": "You enter a dark, dungy room. There is no exit but the door you came in. In the corner, you see a sword.",
     "text_long": "You are in an unlocked room. The door to the west is the only exit.",
     "text_short": "In a dark room, with only exit to the west.",
-    "x": 2,
-    "y": 1,
+    "pos": [2, 1],
     "directions": {
       "north": false,
       "east": false,
@@ -165,8 +158,7 @@ export const gamedata = {
     "text_first": "..",
     "text_long": "..",
     "text_short": "..",
-    "x": 3,
-    "y": 1,
+    "pos": [3, 1],
     "directions": {
       "north": false,
       "east": false,
@@ -182,8 +174,7 @@ export const gamedata = {
     "text_first": "..",
     "text_long": "..",
     "text_short": "..",
-    "x": 4,
-    "y": 1,
+    "pos": [4, 1],
     "directions": {
       "north": false,
       "east": false,
@@ -199,8 +190,7 @@ export const gamedata = {
     "text_first": "..",
     "text_long": "..",
     "text_short": "..",
-    "x": 0,
-    "y": 2,
+    "pos": [0, 2],
     "directions": {
       "north": false,
       "east": false,
@@ -216,8 +206,7 @@ export const gamedata = {
     "text_first": "You are still in a long north/south hallway.",
     "text_long": "You are in a north/south hallway with a door to the east.",
     "text_short": "You are in a north/south hallway.",
-    "x": 1,
-    "y": 2,
+    "pos": [1, 2],
     "directions": {
       "north": true,
       "east": false,
@@ -233,8 +222,7 @@ export const gamedata = {
     "text_first": "..",
     "text_long": "..",
     "text_short": "..",
-    "x": 2,
-    "y": 2,
+    "pos": [2, 2],
     "directions": {
       "north": false,
       "east": false,
@@ -250,8 +238,7 @@ export const gamedata = {
     "text_first": "..",
     "text_long": "..",
     "text_short": "..",
-    "x": 3,
-    "y": 2,
+    "pos": [3, 2],
     "directions": {
       "north": false,
       "east": false,
@@ -267,8 +254,7 @@ export const gamedata = {
     "text_first": "..",
     "text_long": "..",
     "text_short": "..",
-    "x": 4,
-    "y": 2,
+    "pos": [4, 2],
     "directions": {
       "north": false,
       "east": false,
@@ -284,8 +270,7 @@ export const gamedata = {
     "text_first": "..",
     "text_long": "..",
     "text_short": "..",
-    "x": 0,
-    "y": 3,
+    "pos": [0, 3],
     "directions": {
       "north": false,
       "east": false,
@@ -301,8 +286,7 @@ export const gamedata = {
     "text_first": "You are at the end of a long hallway. It now turns to the east. You can hear a strange moaning ahead.",
     "text_long": "You are at the southern end of a hallway. It continues east... towards the moaning sound.",
     "text_short": "The hallway turns to the east.",
-    "x": 1,
-    "y": 3,
+    "pos": [1, 3],
     "directions": {
       "north": true,
       "east": true,
@@ -318,8 +302,7 @@ export const gamedata = {
     "text_first": "You enter the boss room and see a giant cat. It hisses at you and you feel that an attack is all that you can do.",
     "text_long": "You are in the boss room. Until the boss is dead, you can only escape to the west.",
     "text_short": "You are in the boss room.",
-    "x": 2,
-    "y": 3,
+    "pos": [2, 3],
     "directions": {
       "north": false,
       "east": false,
@@ -342,8 +325,7 @@ export const gamedata = {
     "text_first": "..",
     "text_long": "..",
     "text_short": "..",
-    "x": 3,
-    "y": 3,
+    "pos": [3, 3],
     "directions": {
       "north": false,
       "east": false,
@@ -364,8 +346,7 @@ export const gamedata = {
     "text_first": "..",
     "text_long": "..",
     "text_short": "..",
-    "x": 4,
-    "y": 3,
+    "pos": [4, 3],
     "directions": {
       "north": false,
       "east": false,
@@ -381,8 +362,7 @@ export const gamedata = {
     "text_first": "..",
     "text_long": "..",
     "text_short": "..",
-    "x": 0,
-    "y": 4,
+    "pos": [0, 4],
     "directions": {
       "north": false,
       "east": false,
@@ -398,8 +378,7 @@ export const gamedata = {
     "text_first": "..",
     "text_long": "..",
     "text_short": "..",
-    "x": 1,
-    "y": 4,
+    "pos": [1, 4],
     "directions": {
       "north": false,
       "east": false,
@@ -415,8 +394,7 @@ export const gamedata = {
     "text_first": "..",
     "text_long": "..",
     "text_short": "..",
-    "x": 2,
-    "y": 4,
+    "pos": [2, 4],
     "directions": {
       "north": false,
       "east": false,
@@ -432,8 +410,7 @@ export const gamedata = {
     "text_first": "..",
     "text_long": "..",
     "text_short": "..",
-    "x": 3,
-    "y": 4,
+    "pos": [3, 4],
     "directions": {
       "north": false,
       "east": false,
@@ -449,8 +426,7 @@ export const gamedata = {
     "text_first": "..",
     "text_long": "..",
     "text_short": "..",
-    "x": 4,
-    "y": 4,
+    "pos": [4, 4],
     "directions": {
       "north": false,
       "east": false,
