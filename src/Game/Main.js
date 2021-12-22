@@ -2,7 +2,8 @@
 import React, { useState, useRef } from "react";
 import "./Main.css";
 import { Hr } from "../Components/Hr";
-import { gamedata } from "../Game/Levels/level1";
+import { gamedata } from "./Levels/Level1";
+import Canvas from "./Engine/Canvas";
 
 export const Main = () => {
   // Variables
@@ -12,6 +13,17 @@ export const Main = () => {
   const [lastCommand, setLastCommand] = useState("");
   const [player, setPlayer] = useState(gamedata.Player);
   const [room, setRoom] = useState(gamedata.Rooms);
+  const [locations, setLocations] = useState([
+    {
+      x: 10,
+      y: 10,
+      w: 10,
+      h: 10,
+      color: "#00ff00",
+    },
+  ]);
+
+  console.log(locations);
 
   /*
 
@@ -51,7 +63,6 @@ export const Main = () => {
 
   */
 
-
   // Load Game
   // - Set Name
   // - Set Blank Map of Size
@@ -74,45 +85,66 @@ export const Main = () => {
     // Reset Input
     setLastCommand(command.current.value);
     command.current.focus();
-  }
 
+    setLocations((locations) => [
+      ...locations,
+      {
+        x: 20,
+        y: 20,
+        w: 20,
+        h: 20,
+        color: "#ff0000",
+      },
+    ]);
+  };
 
   // Command Structure
   // Verb Noun
-  const onInput = phrase => {
+  const onInput = (phrase) => {
     const [verb, noun] = phrase.split(" ");
     console.log(`Verb: ${verb} | Noun: ${noun}`);
     switch (verb) {
-      case "Go": case "go":
+      case "Go":
+      case "go":
         switch (noun) {
-          case "North": case "north": case "n":
+          case "North":
+          case "north":
+          case "n":
             // go north
             break;
-          case "South": case "south": case "s":
+          case "South":
+          case "south":
+          case "s":
             // go south
             break;
-          case "East": case "east" :case "e":
+          case "East":
+          case "east":
+          case "e":
             // go east
             break;
-          case "West": case "west" :case "w":
+          case "West":
+          case "west":
+          case "w":
             // go west
             break;
           default:
             return "I don't understand where you want me to go...";
-        };
+        }
         break;
-      case "Attack": case "attack":
+      case "Attack":
+      case "attack":
         // Check Enemey exists
         // Else
         return "No enemy in the room.";
-        // if (noun) {
-        //   // Check That Enemy in Room
-        //   // Else
-        //   return "No one to attack."
-        // } else {
-        //   return "You didn't say who to attack.";
-        // }
-      case "Get": case "get":
+      // if (noun) {
+      //   // Check That Enemy in Room
+      //   // Else
+      //   return "No one to attack."
+      // } else {
+      //   return "You didn't say who to attack.";
+      // }
+      case "Get":
+      case "get":
         if (noun) {
           // Check Item in Room
           // If in, room, transfer to inventory and return message.
@@ -125,12 +157,15 @@ export const Main = () => {
           return "Get What?";
         }
         break;
-      case "Help": case  "help": case "h": case  "?":
+      case "Help":
+      case "help":
+      case "h":
+      case "?":
         return "Commands:\nGo [North, East, South, West]\nAttack [Enemy.Name]\nGet [Item.Name]\nHelp <- Display This";
       default:
         return "You must have something valuable to say!!";
     }
-  }
+  };
 
   // Return Object
   return (
@@ -138,12 +173,13 @@ export const Main = () => {
       <div className="top">
         <aside className="map">
           Map <br />
-          <canvas
+          <Canvas
             id="mapCanvas"
             width="300"
             height="300"
             style={{ border: "1px solid black" }}
-          ></canvas>
+            locations={locations || []}
+          />
         </aside>
         <section className="output">
           <textarea
@@ -155,34 +191,43 @@ export const Main = () => {
           />
         </section>
         <aside className="inventory">
-          Player: {player.Name}<br />
-          Hit Points: {player.HP}<br />
-          Gold: {player.Gold}<br />
+          Player: {player.Name}
+          <br />
+          Hit Points: {player.HP}
+          <br />
+          Gold: {player.Gold}
+          <br />
           Weapon: {player.Weapon || "None"} <br />
           <br />
           Items: <br />
           {player.Items.map((item) => {
-              return(
-                <li key={item}>{item}</li>
-              );
-            })
-          }
+            return <li key={item}>{item}</li>;
+          })}
         </aside>
       </div>
       <Hr />
       {/* Select Previous Command with 'ArrowUp' - Accept Enter */}
-      <div className="bottom" onKeyDown={e =>{
-        if(e.key === "ArrowUp") { command.current.value = lastCommand }
-        else if(e.key === "Enter") { handleSubmit(); command.current.value = ""; }
-      }}>
+      <div
+        className="bottom"
+        onKeyDown={(e) => {
+          if (e.key === "ArrowUp") {
+            command.current.value = lastCommand;
+          } else if (e.key === "Enter") {
+            handleSubmit();
+            command.current.value = "";
+          }
+        }}
+      >
         <section className="input">
           <input className="input-text" type="text" ref={command} />
           <button
             className="input-button"
             type="button"
             onClick={() => {
-              handleSubmit(); command.current.value = "";
-            }}>
+              handleSubmit();
+              command.current.value = "";
+            }}
+          >
             Enter
           </button>
         </section>
