@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useRef } from "react";
 import "./Main.css";
 import { Hr } from "../Components/Hr";
@@ -6,11 +7,11 @@ import { gamedata } from "../Game/Levels/level1";
 export const Main = () => {
   // Variables
   const command = useRef("");
-  const [history, setHistory] = useState("You entered a forrest. You see a note.");
+  // const textarea = useRef("");
+  const [history, setHistory] = useState("");
   const [lastCommand, setLastCommand] = useState("");
   const [player, setPlayer] = useState(gamedata.Player);
-
-  console.log(gamedata);
+  const [room, setRoom] = useState(gamedata.Rooms);
 
   /*
 
@@ -22,7 +23,8 @@ export const Main = () => {
       "HP": 30,
       "Weapon": null,
       "Gold": 0,
-      "Items": {}
+      "Items": {},
+      "Position": [0,0]
     },
     "Rooms": [
     {
@@ -30,8 +32,7 @@ export const Main = () => {
       "text_first": "You are in a forrest with a cave entrance directly to your east. You see a note on the ground.",
       "text_long": "You are in a forrest with a cave entrance directly to your east.",
       "text_short": "You are at the entryway of a cave.",
-      "x": 0,
-      "y": 0,
+      "pos", [0,0],
       "directions": {
         "north": false,
         "east": true,
@@ -78,17 +79,54 @@ export const Main = () => {
 
   // Command Structure
   // Verb Noun
-  const onInput = command => {
-    switch (command) {
-      case "Go North":
-        return "Cannot Go north.";
-      case "Attack":
-        return "Attack what?";
-      case "Get Note":
-        let _ply = {...player};
-        _ply.Items.push("Note");
-        setPlayer({...player, ..._ply.Items});
-        return "Picked up note.";
+  const onInput = phrase => {
+    const [verb, noun] = phrase.split(" ");
+    console.log(`Verb: ${verb} | Noun: ${noun}`);
+    switch (verb) {
+      case "Go": case "go":
+        switch (noun) {
+          case "North": case "north": case "n":
+            // go north
+            break;
+          case "South": case "south": case "s":
+            // go south
+            break;
+          case "East": case "east" :case "e":
+            // go east
+            break;
+          case "West": case "west" :case "w":
+            // go west
+            break;
+          default:
+            return "I don't understand where you want me to go...";
+        };
+        break;
+      case "Attack": case "attack":
+        // Check Enemey exists
+        // Else
+        return "No enemy in the room.";
+        // if (noun) {
+        //   // Check That Enemy in Room
+        //   // Else
+        //   return "No one to attack."
+        // } else {
+        //   return "You didn't say who to attack.";
+        // }
+      case "Get": case "get":
+        if (noun) {
+          // Check Item in Room
+          // If in, room, transfer to inventory and return message.
+          // If not, notify user.
+          // let _ply = {...player};
+          // _ply.Items.push("Note");
+          // setPlayer({...player, ..._ply.Items});
+          // return "Picked up note.";
+        } else {
+          return "Get What?";
+        }
+        break;
+      case "Help": case  "help": case "h": case  "?":
+        return "Commands:\nGo [North, East, South, West]\nAttack [Enemy.Name]\nGet [Item.Name]\nHelp <- Display This";
       default:
         return "You must have something valuable to say!!";
     }
@@ -124,11 +162,10 @@ export const Main = () => {
           <br />
           Items: <br />
           {player.Items.map((item) => {
-            return(
-              <li key={item}>{item}</li>
-            );
-          })
-
+              return(
+                <li key={item}>{item}</li>
+              );
+            })
           }
         </aside>
       </div>

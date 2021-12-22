@@ -7,7 +7,7 @@ export const gamedata = {
     "Weapon": null,
     "Gold": 0,
     "Items": [],
-    "Pos": [0, 0]
+    "Positon": [0, 0]
   },
   "Rooms": [
   {
