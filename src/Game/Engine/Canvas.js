@@ -15,8 +15,13 @@ const Canvas = (props) => {
     // Add All Locations
     if (props.locations.length > 0) {
       props.locations.forEach((loc) => {
+        // Fill Rectangle
         context.fillStyle = loc.color;
         context.fillRect(loc.x, loc.y, loc.w, loc.h);
+        // Draw Border
+        context.strokeStyle = "black";
+        context.lineWidth = 3;
+        context.strokeRect(loc.x, loc.y, loc.w, loc.h);
       });
     }
   }, [props.locations]);

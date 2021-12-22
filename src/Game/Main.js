@@ -45,19 +45,19 @@ import { useEffect } from "react/cjs/react.development";
   */
 
 // Load Game
-// - Set Name
+// X - Set Name
 // - Set Blank Map of Size
-// - Display Player Info
-// - Set Initial Text
-// - Load Room
-// - - Display Text
-// - - Update Map
-// - - Set Item/Enemy Variables
-// - - Receive Command
-// - - - Verb | Noun
-// - - - Go [North, East, South, West], Attack [Enemy.Name], Get [Item.Name], Help <- Display This
-// - - - Update JSON Text based on situation (enemy dies, note picked up etc.).
-// - - - - Print Response to Command
+// X - Display Player Info
+// X - Set Initial Text
+// X - Load Room
+// X - - Display Text
+//   - - Update Map
+//   - - Set Item/Enemy Variables
+// | - - Receive Command
+// | - - - Verb | Noun
+// | - - - Go [North, East, South, West], Attack [Enemy.Name], Get [Item.Name], Help <- Display This
+//   - - - Update JSON Text based on situation (enemy dies, note picked up etc.).
+// |  - - - - Print Response to Command
 
 export const Main = () => {
   // Control Updates
@@ -87,15 +87,72 @@ export const Main = () => {
 
   // Drawing Variables
   const [gameSize, _] = useState(gamedata.Size);
-  const [locations, setLocations] = useState([
-    {
-      x: 10,
-      y: 10,
-      w: 10,
-      h: 10,
-      color: "#00ff00",
-    },
-  ]);
+  const [locations, setLocations] = useState([]);
+
+  // Default Sizes
+  const CANVAS_SIZE = 300;
+  const BUFFER = 25; // Edges of Drawing
+  const SQUARE = (CANVAS_SIZE - BUFFER * 2) / gamedata.Size[0];
+  const MAP = gamedata.Map;
+  const [buildMap, finishMap] = useState(true);
+
+  // Placehodlers
+  let _x = 0;
+  let _y = 0;
+  let _h = SQUARE;
+  let _w = SQUARE;
+  let _locations = [];
+  let color = "#ff0000";
+
+  // Build Map on First Run
+  if (buildMap) {
+    for (let y = 0; y < gamedata.Size[1]; y++) {
+      for (let x = 0; x < gamedata.Size[0]; x++) {
+        // Set X
+        _x = x * SQUARE + BUFFER;
+        _y = y * SQUARE + BUFFER;
+        // Set Y
+        // Set Color
+        switch (MAP[y][x]) {
+          case "E":
+            color = "green";
+            break;
+          case "H":
+            color = "grey";
+            break;
+          case "X":
+            color = "black";
+            break;
+          case "R":
+            color = "brown";
+            break;
+          case "!":
+            color = "orange";
+            break;
+          case "*":
+            color = "red";
+            break;
+          default:
+            color = "white";
+            break;
+        }
+        // Place in Array
+        _locations.push({ x: _x, y: _y, w: _w, h: _h, color: color });
+      }
+    }
+    // Save Array
+    setLocations(_locations);
+    // Don't Run Again
+    finishMap(!buildMap);
+  }
+
+  // {
+  //   x: 10,
+  //   y: 10,
+  //   w: 10,
+  //   h: 10,
+  //   color: "#00ff00",
+  // },
 
   // Handlers
   const handleSubmit = () => {
@@ -109,21 +166,21 @@ export const Main = () => {
     setLastCommand(command.current.value);
     command.current.focus();
 
-    // Add New Location
-    setLocations((locations) => [
-      ...locations,
-      {
-        x: 20,
-        y: 20,
-        w: 20,
-        h: 20,
-        color: "#ff0000",
-      },
-    ]);
+    // // Add New Location
+    // setLocations((locations) => [
+    //   ...locations,
+    //   {
+    //     x: 20,
+    //     y: 20,
+    //     w: 20,
+    //     h: 20,
+    //     color: "#ff0000",
+    //   },
+    // ]);
 
     // Set Players Money
     // setPlayer({ ...player, gold: player.gold + 30 });
-    update(!click);
+    // update(!click);
   };
 
   // Command Structure
@@ -220,6 +277,8 @@ export const Main = () => {
     }
   };
 
+  // console.log(locations);
+
   // Game Loop
   // useEffect(() => {
   //   console.log("bump");
@@ -233,8 +292,8 @@ export const Main = () => {
           Map <br />
           <Canvas
             id="mapCanvas"
-            width="300"
-            height="300"
+            width={CANVAS_SIZE}
+            height={CANVAS_SIZE}
             style={{ border: "1px solid black" }}
             locations={locations || []}
           />

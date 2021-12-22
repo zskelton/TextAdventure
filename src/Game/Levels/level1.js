@@ -449,4 +449,11 @@ export const gamedata = {
       isEnd: false,
     },
   },
+  Map: [
+    ["E", "H", "X", "X", "X"],
+    ["X", "H", "R", "X", "X"],
+    ["X", "H", "X", "X", "X"],
+    ["X", "H", "!", "*", "X"],
+    ["X", "X", "X", "X", "X"],
+  ],
 };
