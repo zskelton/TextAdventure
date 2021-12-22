@@ -105,6 +105,8 @@ export const Main = () => {
   let color = "#ff0000";
 
   // Build Map on First Run
+  // TODO: Only show revealed squares.
+  // TODO: Show Icon for position.
   if (buildMap) {
     for (let y = 0; y < gamedata.Size[1]; y++) {
       for (let x = 0; x < gamedata.Size[0]; x++) {
