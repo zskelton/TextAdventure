@@ -13,8 +13,6 @@ const Canvas = (props) => {
     context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
     // Add All Locations
-    console.log(props.locations.length);
-    console.log(props.locations);
     if (props.locations.length > 0) {
       props.locations.forEach((loc) => {
         context.fillStyle = loc.color;
@@ -23,6 +21,7 @@ const Canvas = (props) => {
     }
   }, [props.locations]);
 
+  // Return Canvas Object
   return <canvas ref={canvasRef} {...props} />;
 };
 

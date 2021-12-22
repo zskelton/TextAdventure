@@ -1,31 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useRef } from "react";
-import "./Main.css";
 import { Hr } from "../Components/Hr";
 import { gamedata } from "./Levels/Level1";
 import Canvas from "./Engine/Canvas";
+import "./Main.css";
+import { useEffect } from "react/cjs/react.development";
 
-export const Main = () => {
-  // Variables
-  const command = useRef("");
-  // const textarea = useRef("");
-  const [history, setHistory] = useState("");
-  const [lastCommand, setLastCommand] = useState("");
-  const [player, setPlayer] = useState(gamedata.Player);
-  const [room, setRoom] = useState(gamedata.Rooms);
-  const [locations, setLocations] = useState([
-    {
-      x: 10,
-      y: 10,
-      w: 10,
-      h: 10,
-      color: "#00ff00",
-    },
-  ]);
-
-  console.log(locations);
-
-  /*
+/*
 
     "Game": {
     "Name": "Zack's Adventure",
@@ -63,29 +44,72 @@ export const Main = () => {
 
   */
 
-  // Load Game
-  // - Set Name
-  // - Set Blank Map of Size
-  // - Display Player Info
-  // - Set Initial Text
-  // - Load Room
-  // - - Display Text
-  // - - Update Map
-  // - - Set Item/Enemy Variables
-  // - - Receive Command
-  // - - - Verb | Noun
-  // - - - Go [North, East, South, West], Attack [Enemy.Name], Get [Item.Name], Help <- Display This
-  // - - - Update JSON Text based on situation (enemy dies, note picked up etc.).
-  // - - - - Print Response to Command
+// Load Game
+// - Set Name
+// - Set Blank Map of Size
+// - Display Player Info
+// - Set Initial Text
+// - Load Room
+// - - Display Text
+// - - Update Map
+// - - Set Item/Enemy Variables
+// - - Receive Command
+// - - - Verb | Noun
+// - - - Go [North, East, South, West], Attack [Enemy.Name], Get [Item.Name], Help <- Display This
+// - - - Update JSON Text based on situation (enemy dies, note picked up etc.).
+// - - - - Print Response to Command
+
+export const Main = () => {
+  // Control Updates
+  const [click, update] = useState(false);
+
+  // IO Variables
+  const command = useRef("");
+
+  const [lastCommand, setLastCommand] = useState("");
+
+  // Game Data Variables
+  const [player, setPlayer] = useState({
+    name: gamedata.Player.Name,
+    hp: gamedata.Player.HP,
+    weapon: gamedata.Player.Weapon,
+    gold: gamedata.Player.Gold,
+    items: gamedata.Player.Items,
+    position: gamedata.Player.Positon,
+  });
+
+  const [room, setRoom] = useState(gamedata.Rooms["0.0"]);
+  const [history, setHistory] = useState(room.text_first);
+  // Item List from JSON - When picked up/dropped add to JSON
+  // Enemies on JSON, and store all stats on JSON.
+  // JSON = Permanent
+  // state = For now
+
+  // Drawing Variables
+  const [gameSize, _] = useState(gamedata.Size);
+  const [locations, setLocations] = useState([
+    {
+      x: 10,
+      y: 10,
+      w: 10,
+      h: 10,
+      color: "#00ff00",
+    },
+  ]);
 
   // Handlers
   const handleSubmit = () => {
     // Add Output to Form
-    setHistory(`${history}\n\n${onInput(command.current.value)}`);
+    setHistory(
+      `${history}\n> ${command.current.value}\n\n${onInput(
+        command.current.value
+      )}`
+    );
     // Reset Input
     setLastCommand(command.current.value);
     command.current.focus();
 
+    // Add New Location
     setLocations((locations) => [
       ...locations,
       {
@@ -96,13 +120,17 @@ export const Main = () => {
         color: "#ff0000",
       },
     ]);
+
+    // Set Players Money
+    // setPlayer({ ...player, gold: player.gold + 30 });
+    update(!click);
   };
 
   // Command Structure
   // Verb Noun
   const onInput = (phrase) => {
     const [verb, noun] = phrase.split(" ");
-    console.log(`Verb: ${verb} | Noun: ${noun}`);
+    // console.log(`Verb: ${verb} | Noun: ${noun}`);
     switch (verb) {
       case "Go":
       case "go":
@@ -110,27 +138,52 @@ export const Main = () => {
           case "North":
           case "north":
           case "n":
-            // go north
-            break;
+            if (room.directions.north) {
+              player.position[1] = player.position[1] - 1;
+              let newRoom = `${player.position[0]}.${player.position[1]}`;
+              setRoom(gamedata.Rooms[newRoom]);
+              return gamedata.Rooms[newRoom].text_first;
+            } else {
+              return "Cannot Move North.";
+            }
           case "South":
           case "south":
           case "s":
-            // go south
-            break;
+            if (room.directions.south) {
+              player.position[1] = player.position[1] + 1;
+              let newRoom = `${player.position[0]}.${player.position[1]}`;
+              console.log(newRoom);
+              setRoom(gamedata.Rooms[newRoom]);
+              return gamedata.Rooms[newRoom].text_first;
+            } else {
+              return "Cannot Move South.";
+            }
           case "East":
           case "east":
           case "e":
-            // go east
-            break;
+            if (room.directions.east) {
+              player.position[0] = player.position[0] + 1;
+              let newRoom = `${player.position[0]}.${player.position[1]}`;
+              setRoom(gamedata.Rooms[newRoom]);
+              // update(!click);
+              return gamedata.Rooms[newRoom].text_first;
+            } else {
+              return "Cannot Move East.";
+            }
           case "West":
           case "west":
           case "w":
-            // go west
-            break;
+            if (room.directions.north) {
+              player.position[0] = player.position[0] - 1;
+              let newRoom = `${player.position[0]}.${player.position[1]}`;
+              setRoom(gamedata.Rooms[newRoom]);
+              return gamedata.Rooms[newRoom].text_first;
+            } else {
+              return "Cannot Move North.";
+            }
           default:
             return "I don't understand where you want me to go...";
         }
-        break;
       case "Attack":
       case "attack":
         // Check Enemey exists
@@ -153,10 +206,10 @@ export const Main = () => {
           // _ply.Items.push("Note");
           // setPlayer({...player, ..._ply.Items});
           // return "Picked up note.";
+          return "not here yet";
         } else {
           return "Get What?";
         }
-        break;
       case "Help":
       case "help":
       case "h":
@@ -166,6 +219,11 @@ export const Main = () => {
         return "You must have something valuable to say!!";
     }
   };
+
+  // Game Loop
+  // useEffect(() => {
+  //   console.log("bump");
+  // }, [click]);
 
   // Return Object
   return (
@@ -191,16 +249,16 @@ export const Main = () => {
           />
         </section>
         <aside className="inventory">
-          Player: {player.Name}
+          Player: {player.name}
           <br />
-          Hit Points: {player.HP}
+          Hit Points: {player.hp}
           <br />
-          Gold: {player.Gold}
+          Gold: {player.gold}
           <br />
-          Weapon: {player.Weapon || "None"} <br />
+          Weapon: {player.weapon || "None"} <br />
           <br />
           Items: <br />
-          {player.Items.map((item) => {
+          {player.items.map((item) => {
             return <li key={item}>{item}</li>;
           })}
         </aside>
